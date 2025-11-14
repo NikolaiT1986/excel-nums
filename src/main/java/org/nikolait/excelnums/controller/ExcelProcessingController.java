@@ -21,7 +21,7 @@ public class ExcelProcessingController {
     @PostMapping("/nth-min")
     @Operation(
             summary = "Поиск N-го минимального числа",
-            description = "Принимает путь к локальному XLSX-файлу и число N, возвращает N-ое минимальное значение."
+            description = "Принимает путь к локальному Excel-файлу и число N, возвращает N-ое минимальное значение."
     )
     public ResponseEntity<Integer> getNthMin(@Valid @RequestBody NthMinExcel request) {
         int result = excelProcessingService.findNthMin(request.filePath(), request.n());
