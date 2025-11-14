@@ -46,6 +46,14 @@
 - `excel.reader.allowed-extensions` — список разрешённых расширений через запятую. Можно указывать **с точкой или без
   ** — оба варианта корректно обрабатываются, например: `xlsx` или `.xlsx`.
 
+## Пример использования с curl
+
+```bash
+  curl -X POST http://localhost:8080/api/excel/nth-min \
+  -H "Content-Type: application/json" \
+  -d '{"filePath": "path/to/your/file/numbers.xlsx", "n": 1}'
+```
+
 ## Тесты
 
 Проект содержит тесты для проверки чтения Excel-файлов и работы алгоритма Quickselect.  
