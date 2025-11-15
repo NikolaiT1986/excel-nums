@@ -54,7 +54,7 @@ public class ExcelProcessingServiceImpl implements ExcelProcessingService {
         }
     }
 
-    // Разделяет элементы вокруг опорного
+    // Распределяет элементы меньшие pivotValue слева, большие или равные справа, возвращает новый pivotIndex
     private int partition(int[] numbers, int leftIndex, int rightIndex, int pivotIndex) {
         int pivotValue = numbers[pivotIndex];
         swap(numbers, pivotIndex, rightIndex);
