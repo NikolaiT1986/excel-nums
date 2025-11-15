@@ -20,62 +20,62 @@ public class ExcelProcessingServiceImpl implements ExcelProcessingService {
             throw new IllegalArgumentException("Параметр n должен быть положительным");
         }
 
-        int[] data = excelReader.readNumbers(Path.of(filePath));
+        int[] numbers = excelReader.readNumbers(Path.of(filePath));
 
-        if (n > data.length) {
+        if (n > numbers.length) {
             throw new ExcelValidationException(
-                    "Параметр n (" + n + ") больше количества чисел в файле (" + data.length + ")"
+                    "Параметр n (" + n + ") больше количества чисел в файле (" + numbers.length + ")"
             );
         }
 
-        return quickSelect(data, n - 1);
+        return quickSelect(numbers, n - 1);
     }
 
     // Средняя сложность O(n), худшая O(n²) при неудачном выборе опорного элемента
-    private int quickSelect(int[] a, int k) {
-        int left = 0;
-        int right = a.length - 1;
+    private int quickSelect(int[] numbers, int targetIndex) {
+        int leftIndex = 0;
+        int rightIndex = numbers.length - 1;
 
         for (; ; ) {
-            if (left == right) {
-                return a[left];
+            if (leftIndex == rightIndex) {
+                return numbers[leftIndex];
             }
 
-            int pivotIndex = right;
-            pivotIndex = partition(a, left, right, pivotIndex);
+            int pivotIndex = rightIndex;
+            pivotIndex = partition(numbers, leftIndex, rightIndex, pivotIndex);
 
-            if (k == pivotIndex) {
-                return a[k];
-            } else if (k < pivotIndex) {
-                right = pivotIndex - 1;
+            if (targetIndex == pivotIndex) {
+                return numbers[targetIndex];
+            } else if (targetIndex < pivotIndex) {
+                rightIndex = pivotIndex - 1;
             } else {
-                left = pivotIndex + 1;
+                leftIndex = pivotIndex + 1;
             }
         }
     }
 
     // Разделяет элементы вокруг опорного
-    private int partition(int[] a, int left, int right, int pivotIndex) {
-        int pivotValue = a[pivotIndex];
-        swap(a, pivotIndex, right);
+    private int partition(int[] numbers, int leftIndex, int rightIndex, int pivotIndex) {
+        int pivotValue = numbers[pivotIndex];
+        swap(numbers, pivotIndex, rightIndex);
 
-        int store = left;
-        for (int i = left; i < right; i++) {
-            if (a[i] < pivotValue) {
-                swap(a, store, i);
-                store++;
+        int storeIndex = leftIndex;
+        for (int i = leftIndex; i < rightIndex; i++) {
+            if (numbers[i] < pivotValue) {
+                swap(numbers, storeIndex, i);
+                storeIndex++;
             }
         }
 
-        swap(a, right, store);
-        return store;
+        swap(numbers, rightIndex, storeIndex);
+        return storeIndex;
     }
 
     // Меняет местами два элемента массива
-    private void swap(int[] a, int i, int j) {
-        int temp = a[i];
-        a[i] = a[j];
-        a[j] = temp;
+    private void swap(int[] numbers, int firstIndex, int secondIndex) {
+        int tempValue = numbers[firstIndex];
+        numbers[firstIndex] = numbers[secondIndex];
+        numbers[secondIndex] = tempValue;
     }
 
 }
